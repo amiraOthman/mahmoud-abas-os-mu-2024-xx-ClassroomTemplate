@@ -1,0 +1,54 @@
+{
+  "tests": [
+    {
+      "name": "Unit Tests (Deposit_ShouldIncreaseBalance)",
+      "setup": "",
+      "run": "DOTNET_CLI_HOME=/home/runner dotnet test --filter TestGroup=Deposit_ShouldIncreaseBalance",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 1,
+      "points": 1
+    },
+    {
+      "name": "Unit Tests (Withdraw_ShouldDecreaseBalance_WhenSufficientFunds)",
+      "setup": "",
+      "run": "DOTNET_CLI_HOME=/home/runner dotnet test --filter TestGroup=Withdraw_ShouldDecreaseBalance_WhenSufficientFunds",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 1,
+      "points": 1
+    },
+    {
+      "name": "Unit Tests (Withdraw_ShouldNotAllowOverdraft)",
+      "setup": "",
+      "run": "DOTNET_CLI_HOME=/home/runner dotnet test --filter TestGroup=Withdraw_ShouldNotAllowOverdraft",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 1,
+      "points": 1
+    },
+    {
+      "name": "Unit Tests (ConcurrentDepositsAndWithdrawals_ShouldMaintainCorrectBalance)",
+      "setup": "",
+      "run": "DOTNET_CLI_HOME=/home/runner dotnet test --filter TestGroup=ConcurrentDepositsAndWithdrawals_ShouldMaintainCorrectBalance",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 1,
+      "points": 1
+    },
+    {
+      "name": "Unit Tests (ConcurrentOperations_ShouldBeThreadSafe)",
+      "setup": "",
+      "run": "DOTNET_CLI_HOME=/home/runner dotnet test --filter TestGroup=ConcurrentOperations_ShouldBeThreadSafe",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 1,
+      "points": 1
+    }
+  ]
+}
