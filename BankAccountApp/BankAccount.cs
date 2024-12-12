@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Threading;
 
 namespace BankAccountApp
@@ -7,7 +8,7 @@ namespace BankAccountApp
     {
         private decimal _balance;
 
-        // TODO: Declare a lock object for thread synchronization
+        // Lock object for thread synchronization
         private readonly object _lock = new object();
 
         // Constructor
@@ -16,30 +17,34 @@ namespace BankAccountApp
             _balance = initialBalance;
         }
 
-        // TODO: Implement the Deposit method
-        // This method should:
-        // 1. Use a synchronization mechanism (e.g., lock) to protect the shared balance.
-        // 2. Add the amount to the balance.
-        // 3. Print a message showing the deposit amount and new balance.
+        // Implement the Deposit method
         public void Deposit(decimal amount)
         {
-            throw new NotImplementedException("Deposit method not implemented");
+            lock (_lock)
+            {
+                _balance += amount;
+                Console.WriteLine($"Deposited: {amount}, New Balance: {_balance}");
+            }
         }
 
-        // TODO: Implement the Withdraw method
-        // This method should:
-        // 1. Use a synchronization mechanism (e.g., lock) to protect the shared balance.
-        // 2. Check if there are sufficient funds before withdrawing.
-        // 3. Subtract the amount from the balance if possible.
-        // 4. Print a message showing the withdrawal amount and remaining balance.
-        // 5. If insufficient funds, print an appropriate message.
+        // Implement the Withdraw method
         public void Withdraw(decimal amount)
         {
-            throw new NotImplementedException("Withdraw method not implemented");
+            lock (_lock)
+            {
+                if (_balance >= amount)
+                {
+                    _balance -= amount;
+                    Console.WriteLine($"Withdrawn: {amount}, Remaining Balance: {_balance}");
+                }
+                else
+                {
+                    Console.WriteLine($"Insufficient funds. Withdrawal of {amount} failed. Current Balance: {_balance}");
+                }
+            }
         }
 
-        // Method to get the current balance
-        // This method is already implemented for you.
+        // Implement the GetBalance method
         public decimal GetBalance()
         {
             lock (_lock)
@@ -48,24 +53,31 @@ namespace BankAccountApp
             }
         }
 
-        // Main method to test the implementation (optional)
-        public static void Main(string[] args)
+        static void Main(string[] args)
         {
-            Console.WriteLine("BankAccount simulation started.");
+            // Example usage
+            var account = new BankAccount(1000);
 
-            // TODO: Create a BankAccount instance with an initial balance of 1000.
-            BankAccount account = null; // Replace null with proper initialization.
+            // Create multiple threads to test thread safety
+            Thread t1 = new Thread(() => {
+                account.Deposit(500);
+                account.Withdraw(300);
+                Console.WriteLine($"Balance from Thread 1: {account.GetBalance()}");
+            });
 
-            // TODO: Create multiple threads to simulate deposits and withdrawals.
-            // For example:
-            // 1. Create 5 threads for deposits.
-            // 2. Create 5 threads for withdrawals.
+            Thread t2 = new Thread(() => {
+                account.Deposit(200);
+                account.Withdraw(400);
+                Console.WriteLine($"Balance from Thread 2: {account.GetBalance()}");
+            });
 
-            // TODO: Start all threads and wait for them to complete using Join.
+            t1.Start();
+            t2.Start();
 
-            // TODO: Print the final balance.
+            t1.Join();
+            t2.Join();
 
-            Console.WriteLine("BankAccount simulation completed.");
+            Console.WriteLine($"Final Balance: {account.GetBalance()}");
         }
     }
 }
